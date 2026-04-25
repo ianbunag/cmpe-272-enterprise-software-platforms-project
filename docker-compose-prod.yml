@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
     environment:
       - DB_HOST=mariadb
-      - DB_NAME=cmpe272-project
+      - DB_NAME=cmpe-272-project
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
     depends_on:

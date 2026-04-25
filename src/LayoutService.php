@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/VersionService.php";
+
 class LayoutService
 {
     public static function renderHeaders(string $title): void
