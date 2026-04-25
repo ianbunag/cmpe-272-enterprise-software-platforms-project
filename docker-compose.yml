@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=cmpe-272-project
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    command: --innodb-buffer-pool-size=128M
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx-dev
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT}:80"
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+      target: development
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public:/var/www/html/public:ro
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    image: php-fpm-dev
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=cmpe-272-project
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    build:
+      context: .
+      dockerfile: php-fpm/Dockerfile
+      target: development
+    volumes:
+      - ./vendor:/var/www/html/vendor
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock
+
+      - ./public:/var/www/html/public:ro
+      - ./src:/var/www/html/src:ro
+      - ./migrations:/var/www/html/migrations:ro
+      - ./phinx.php:/var/www/html/phinx.php:ro
+      - ./php-fpm/prod.ini:/usr/local/etc/php/conf.d/prod.ini:ro
+      - ./php-fpm/dev.ini:/usr/local/etc/php/conf.d/dev.ini:ro
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+volumes:
+  db_data:
