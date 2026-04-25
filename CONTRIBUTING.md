@@ -16,7 +16,7 @@ The application runs on MariaDB (containerized) and is orchestrated via Docker C
 
 ## Creating and Using Reusable Components
 
-Place reusable PHP classes and utilities in the `/src` directory. Each class should have a single responsibility. Classes are auto-loaded via Composer and are available throughout the application.
+Place reusable PHP classes and utilities in the `/src` directory. Each class should have a single responsibility.
 
 When creating a reusable component, follow the pattern of existing services like `LayoutService` and `VersionService` (see `/src`). Initialize required dependencies in the component itself and expose static or instance methods as appropriate.
 

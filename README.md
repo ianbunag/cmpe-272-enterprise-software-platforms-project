@@ -48,6 +48,7 @@ cp .env.example .env
 ### Start the development environment
 ```bash
 docker compose up -d
+```
 
 ### Install dependencies
 ```bash
@@ -60,4 +61,4 @@ docker compose exec php-fpm vendor/bin/phinx migrate
 ```
 
 ### Access the application
-Access the application at [!http://localhost:8081](http://localhost:8081) (or the HTTP_PORT you configured in your .env file).
+Access the application at [http://localhost:8081](http://localhost:8081) (or the HTTP_PORT you configured in your .env file).
