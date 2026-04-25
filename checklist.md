@@ -13,14 +13,13 @@
     - [ ] Top-rated (Rating Service)
     - [ ] Company (Company Service)
   - [ ] Products/Services listing (Company Service)
-    - [ ] Track user visits (Heap Analytics)
+    - [ ] Track user visits (Heap Analytics) [OPTIONAL]
     - [ ] Visit website (Company Service)
     - [ ] Products/Services cache (Cache Service)
 - [ ] Product/Service page (Company Service)
   - [ ] Track user visits (Visit Service)
   - [ ] Add review and rating for products/services (Rating Service)
   - [ ] Product/Service cache (Cache Service)
-
 
 ## Planning notes
 - Authentication is integrated in the Marketplace only. Companies can later integrate in their own apps by using the same FirebaseUI configuration.
@@ -32,3 +31,4 @@
 - Sorting functionality in the marketplace
 - Caching of website data to improve performance
 - Social login options (Google, Facebook, etc.) through FirebaseUI
+- CI/CD
