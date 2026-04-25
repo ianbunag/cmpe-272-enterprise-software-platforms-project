@@ -41,5 +41,5 @@ Before beginning development tasks, read **CONTRIBUTING.md** for guidance on:
 - Working with database migrations and PDO
 - Development environment setup
 
-CONTRIBUTING.md provides the codebase-specific workflow details that complement these agent guidelines.
+[CONTRIBUTING.md](./CONTRIBUTING.md) provides the codebase-specific workflow details that complement these agent guidelines.
 
