@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   DEPLOY_DIRECTORY: /var/lib/app/cmpe-272-project
-  DEPLOY_TMP_DIRECTORY: /tmp/var/lib/app/cmpe-272-project
+  DEPLOY_TMP_DIRECTORY: /tmp/cmpe-272-project
 
 jobs:
   build-and-push:
