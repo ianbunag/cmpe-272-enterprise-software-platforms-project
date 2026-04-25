@@ -1,1 +1,6 @@
-.idea
+.env
+/vendor/
+.idea/
+*.log
+.DS_Store
+VERSION

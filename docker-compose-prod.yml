@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=cmpe-272-project
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    command: --innodb-buffer-pool-size=128M
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: ${IMAGE_REGISTRY}/nginx:${IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT}:80"
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    image: ${IMAGE_REGISTRY}/php-fpm:${IMAGE_TAG}
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=cmpe272-project
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+volumes:
+  db_data:
