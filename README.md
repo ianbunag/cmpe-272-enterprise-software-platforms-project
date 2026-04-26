@@ -62,3 +62,8 @@ docker compose exec php-fpm vendor/bin/phinx migrate
 
 ### Access the application
 Access the application at [http://localhost:8080](http://localhost:8080) (or the HTTP_PORT you configured in your .env file).
+
+### Stop the development environment
+```bash
+docker compose down
+```
