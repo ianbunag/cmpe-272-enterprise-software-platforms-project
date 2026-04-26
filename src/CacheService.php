@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/VersionService.php";
-
 define('CacheServiceEnabled', !getenv('ENABLE_CACHE') || getenv('ENABLE_CACHE') === "true");
 
 class CacheService
@@ -41,7 +39,7 @@ class CacheService
             }
 
             return serialize($dependency);
-        }, [VersionService::getVersion(), ...$dependencies]);
+        }, $dependencies);
 
         return join("|", $serializedDependencies);
     }
