@@ -10,6 +10,10 @@ RUN apk add --no-cache \
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql zip
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && apk del .build-deps
 
 # Get official Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

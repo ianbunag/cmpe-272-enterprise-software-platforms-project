@@ -1,6 +1,7 @@
 {
     "require": {
         "robmorgan/phinx": "^0.13.4",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-apcu": "*"
     }
 }
