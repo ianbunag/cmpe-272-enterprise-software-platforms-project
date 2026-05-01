@@ -23,10 +23,8 @@ if (!$product) {
         <?php LayoutService::renderNavigation(); ?>
         <?php
             echo 'product_id: ' . htmlspecialchars($product['product_id']) . '<br>';
-            echo 'company_product_id: ' . htmlspecialchars((string)$product['company_product_id']) . '<br>';
-            echo 'company_id: ' . htmlspecialchars((string)$product['company_id']) . '<br>';
-            echo 'company_name: ' . htmlspecialchars($product['company_name']) . '<br>';
             echo 'name: ' . htmlspecialchars($product['name']) . '<br>';
+            echo 'company_name: ' . htmlspecialchars($product['company_name']) . '<br>';
             echo 'price: ' . htmlspecialchars($product['price']) . '<br>';
             echo 'description: ' . htmlspecialchars($product['description']) . '<br>';
             echo 'imageUrl: <a href="' . htmlspecialchars($product['imageUrl']) . '">' . htmlspecialchars($product['imageUrl']) . '</a><br>';

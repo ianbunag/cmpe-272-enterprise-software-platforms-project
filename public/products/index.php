@@ -27,10 +27,8 @@ LayoutService::requiredAuthenticated();
             foreach ($entities as $entity) {
                 echo 'product_id: ' . htmlspecialchars($entity['product_id']) . '<br>';
                 echo 'product page: <a href="/products/' . htmlspecialchars($entity['product_id']) . '">/products/' . htmlspecialchars($entity['product_id']) . '</a><br>';
-                echo 'company_product_id: ' . htmlspecialchars((string)$entity['company_product_id']) . '<br>';
-                echo 'company_id: ' . htmlspecialchars((string)$entity['company_id']) . '<br>';
-                echo 'company_name: ' . htmlspecialchars($entity['company_name']) . '<br>';
                 echo 'name: ' . htmlspecialchars($entity['name']) . '<br>';
+                echo 'company_name: ' . htmlspecialchars($entity['company_name']) . '<br>';
                 echo 'price: ' . htmlspecialchars($entity['price']) . '<br>';
                 echo 'description: ' . htmlspecialchars($entity['description']) . '<br>';
                 echo 'imageUrl: <a href="' . htmlspecialchars($entity['imageUrl']) . '">' . htmlspecialchars($entity['imageUrl']) . '</a><br>';

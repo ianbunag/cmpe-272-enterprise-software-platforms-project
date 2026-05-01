@@ -94,15 +94,15 @@ class SearchService
         );
     }
 
-    public static function getProduct(string $path_id): array
+    public static function getProduct(string $productId): array
     {
-        $ids = self::decodeProductId($path_id);
-        if (!$ids['company_id'] || !$ids['company_product_id']) {
+        $ids = self::decodeProductId($productId);
+        if (!$ids['company_id']) {
             return [];
         }
         $products = self::getProducts($ids['company_id']);
         foreach ($products as $product) {
-            if ((string)$product['company_product_id'] === (string)$ids['company_product_id']) {
+            if ((string)$product['product_id'] === $productId) {
                 $product['rating_average'] = 0;
                 $product['rating_count'] = 0;
                 return $product;
@@ -169,10 +169,8 @@ class SearchService
                     $productId = $item['id'] ?? '';
                     $result[] = [
                         'product_id' => self::encodeProductId($companyId, $productId),
-                        'company_product_id' => $productId,
-                        'company_id' => $companyId,
-                        'company_name' => $companyName,
                         'name' => $item['name'] ?? '',
+                        'company_name' => $companyName,
                         'price' => $item['price'] ?? '',
                         'description' => $item['description'] ?? '',
                         'imageUrl' => $item['imageUrl'] ?? '',
