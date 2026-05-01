@@ -1,4 +1,10 @@
-<?php require_once __DIR__ . '/../../src/index.php'; ?>
+<?php
+
+require_once __DIR__ . '/../../src/index.php';
+
+LayoutService::requiredAuthenticated();
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
