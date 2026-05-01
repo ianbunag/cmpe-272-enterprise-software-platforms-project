@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php LayoutService::renderHeaders("products"); ?>
+        <?php LayoutService::renderHeaders("Products"); ?>
     </head>
     <body>
         <?php LayoutService::renderNavigation(); ?>

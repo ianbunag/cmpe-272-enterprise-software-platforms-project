@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php LayoutService::renderHeaders("root"); ?>
+        <?php LayoutService::renderHeaders("Home"); ?>
     </head>
     <body>
         <?php LayoutService::renderNavigation(); ?>

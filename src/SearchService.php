@@ -94,6 +94,24 @@ class SearchService
         );
     }
 
+    public static function getProduct(string $path_id): array
+    {
+        $ids = self::decodePathId($path_id);
+        if (!$ids['company_id'] || !$ids['product_id']) {
+            return [];
+        }
+        $products = self::getProducts($ids['company_id']);
+        foreach ($products as $product) {
+            if ((string)$product['product_id'] === (string)$ids['product_id']) {
+                $product['rating_average'] = 0;
+                $product['rating_count'] = 0;
+                return $product;
+            }
+        }
+
+        return [];
+    }
+
     public static function getProducts(?int $company = self::COMPANY_NONE): array
     {
         // If a company is specified, return its products. Otherwise, aggregate for all enabled companies.
@@ -153,7 +171,7 @@ class SearchService
                         'product_id' => $productId,
                         'company_id' => $companyId,
                         'company_name' => $companyName,
-                        'path_id' => self::generatePathId($companyId, $productId),
+                        'path_id' => self::encodePathId($companyId, $productId),
                         'name' => $item['name'] ?? '',
                         'price' => $item['price'] ?? '',
                         'description' => $item['description'] ?? '',
@@ -168,8 +186,25 @@ class SearchService
         );
     }
 
-    private static function generatePathId(int $companyId, string $productId): string
+    private static function encodePathId(int $companyId, string $productId): string
     {
-        return hash('sha256', $companyId . ':' . $productId);
+        $raw = $companyId . ':' . $productId;
+        return bin2hex($raw);
+    }
+
+    public static function decodePathId(string $pathId): array
+    {
+        $decoded = @hex2bin($pathId);
+        if ($decoded === false) {
+            return ['company_id' => null, 'product_id' => null];
+        }
+        $parts = explode(':', $decoded, 2);
+        if (count($parts) !== 2) {
+            return ['company_id' => null, 'product_id' => null];
+        }
+        return [
+            'company_id' => is_numeric($parts[0]) ? (int)$parts[0] : null,
+            'product_id' => $parts[1],
+        ];
     }
 }
