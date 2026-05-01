@@ -44,6 +44,12 @@ All database interactions must use PDO. Connection details are passed via enviro
 
 Refer to existing migrations in `/migrations` for the structure and pattern. Before adding features that require database tables, create and run migrations through the Phinx CLI.
 
+## Frontend and Styling
+
+The application uses **Matcha CSS** (https://matcha.mizu.sh/matcha.css), a minimal CSS framework. This framework is included in all pages via the `LayoutService::renderHeaders()` method (see `/src/LayoutService.php`). When creating new pages or components, use semantic HTML and Matcha CSS classes for styling. The framework provides utility classes for layout, typography, forms, buttons, and more.
+
+For custom components or layouts not covered by Matcha CSS (such as navigation bars), use inline styles in the HTML elements. Keep styles concise and focused on layout and spacing. External CSS files should only be used for global styles in `/static/index.css`.
+
 ## Development Environment
 
 The application is containerized with Docker Compose. Services include:

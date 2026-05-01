@@ -6,6 +6,7 @@
         <?php LayoutService::renderHeaders("shop"); ?>
     </head>
     <body>
+        <?php LayoutService::renderNavigation(); ?>
         shop
     </body>
 </html>

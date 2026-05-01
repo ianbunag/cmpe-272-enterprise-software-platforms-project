@@ -6,6 +6,7 @@
         <?php LayoutService::renderHeaders("shop/" . $_GET['id'] ?? null); ?>
     </head>
     <body>
+        <?php LayoutService::renderNavigation(); ?>
         shop/<?php echo $_GET['id'] ?? null; ?>
     </body>
 </html>

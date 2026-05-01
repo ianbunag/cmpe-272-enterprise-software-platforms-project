@@ -11,6 +11,7 @@
         <?php LayoutService::renderHeaders("root"); ?>
     </head>
     <body>
+        <?php LayoutService::renderNavigation(); ?>
         root
         <br>
         <?php echo "Last cache: " . $lastCache[0]; ?>
