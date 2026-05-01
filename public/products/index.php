@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php LayoutService::renderHeaders("shop/" . $_GET['id'] ?? null); ?>
+        <?php LayoutService::renderHeaders("products"); ?>
     </head>
     <body>
         <?php LayoutService::renderNavigation(); ?>
-        shop/<?php echo $_GET['id'] ?? null; ?>
+        products
     </body>
 </html>
