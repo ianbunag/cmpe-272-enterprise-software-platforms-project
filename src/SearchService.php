@@ -2,6 +2,8 @@
 
 require_once __DIR__ . "/CacheService.php";
 require_once __DIR__ . "/VersionService.php";
+require_once __DIR__ . '/DatabaseService.php';
+require_once __DIR__ . '/TrackingService.php';
 
 class SearchService
 {
@@ -40,58 +42,55 @@ class SearchService
         ?int $company = self::COMPANY_NONE
     ): array
     {
-        return CacheService::memoize(
-            function () use ($query, $sort, $company) {
-                try {
-                    // Get products, filtered by company if provided
-                    $products = self::getProducts($company);
-                    if (!is_array($products)) {
-                        $products = [];
-                    }
+        try {
+            // Get products, filtered by company if provided
+            $products = self::getProducts($company);
+            if (!is_array($products)) {
+                $products = [];
+            }
 
-                    // Filter by query if provided
-                    if ($query !== self::QUERY_NONE && $query !== null && $query !== '') {
-                        $q = mb_strtolower($query);
-                        $products = array_filter($products, function ($item) use ($q) {
-                            return (
-                                mb_strpos(mb_strtolower($item['name'] ?? ''), $q) !== false ||
-                                mb_strpos(mb_strtolower($item['price'] ?? ''), $q) !== false ||
-                                mb_strpos(mb_strtolower($item['description'] ?? ''), $q) !== false ||
-                                mb_strpos(mb_strtolower($item['company_name'] ?? ''), $q) !== false
-                            );
-                        });
-                        $products = array_values($products);
-                    }
+            // Filter by query if provided
+            if ($query !== self::QUERY_NONE && $query !== null && $query !== '') {
+                $q = mb_strtolower($query);
+                $products = array_filter($products, function ($item) use ($q) {
+                    return (
+                        mb_strpos(mb_strtolower($item['name'] ?? ''), $q) !== false ||
+                        mb_strpos(mb_strtolower($item['price'] ?? ''), $q) !== false ||
+                        mb_strpos(mb_strtolower($item['description'] ?? ''), $q) !== false ||
+                        mb_strpos(mb_strtolower($item['company_name'] ?? ''), $q) !== false
+                    );
+                });
+                $products = array_values($products);
+            }
 
-                    // Insert visit_count, rating_average, rating_count as index-based (reverse for visit_count)
-                    $count = count($products);
-                    foreach ($products as $i => &$item) {
-                        $item['visit_count'] = $count - $i - 1;
-                        $item['rating_average'] = $i;
-                        $item['rating_count'] = $i;
-                    }
-                    unset($item);
+            // Fetch real visit counts from TrackingService
+            $productIds = array_column($products, 'product_id');
+            $visitCounts = (new TrackingService())->getVisits($productIds);
 
-                    // Sorting
-                    if ($sort === self::SORT_NAME) {
-                        usort($products, function ($a, $b) {
-                            return strcmp($a['name'], $b['name']);
-                        });
-                    } elseif ($sort === self::SORT_TRENDING) {
-                        usort($products, fn($a, $b) => $b['visit_count'] <=> $a['visit_count']);
-                    } elseif ($sort === self::SORT_TOP_RATED) {
-                        usort($products, fn($a, $b) => $b['rating_average'] <=> $a['rating_average']);
-                    }
+            // Insert visit_count, rating_average, rating_count
+            foreach ($products as $i => &$item) {
+                $item['visit_count'] = $visitCounts[$item['product_id']] ?? 0;
+                $item['rating_average'] = $i;
+                $item['rating_count'] = $i;
+            }
+            unset($item);
 
-                    return $products;
-                } catch (\Throwable $e) {
-                    error_log('SearchService::searchProducts error: ' . $e->getMessage());
-                    return [];
-                }
-            },
-            ['SearchService::searchProducts', $query, $sort, $company],
-            CacheService::TWO_MINUTES
-        );
+            // Sorting
+            if ($sort === self::SORT_NAME) {
+                usort($products, function ($a, $b) {
+                    return strcmp($a['name'], $b['name']);
+                });
+            } elseif ($sort === self::SORT_TRENDING) {
+                usort($products, fn($a, $b) => $b['visit_count'] <=> $a['visit_count']);
+            } elseif ($sort === self::SORT_TOP_RATED) {
+                usort($products, fn($a, $b) => $b['rating_average'] <=> $a['rating_average']);
+            }
+
+            return $products;
+        } catch (\Throwable $e) {
+            error_log('SearchService::searchProducts error: ' . $e->getMessage());
+            return [];
+        }
     }
 
     public static function getProduct(string $productId): array
@@ -103,6 +102,8 @@ class SearchService
         $products = self::getProducts($ids['company_id']);
         foreach ($products as $product) {
             if ((string)$product['product_id'] === $productId) {
+                $visitCounts = (new TrackingService())->getVisits([$productId]);
+                $product['visit_count'] = $visitCounts[$productId] ?? 0;
                 $product['rating_average'] = 0;
                 $product['rating_count'] = 0;
                 return $product;

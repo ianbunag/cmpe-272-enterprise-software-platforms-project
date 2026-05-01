@@ -34,3 +34,5 @@ if (!$product) {
         ?>
     </body>
 </html>
+
+<?php TrackingService::trackVisit($product["product_id"], UserService::getId()); ?>
