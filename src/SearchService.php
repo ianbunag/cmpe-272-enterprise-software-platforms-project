@@ -96,13 +96,13 @@ class SearchService
 
     public static function getProduct(string $path_id): array
     {
-        $ids = self::decodePathId($path_id);
-        if (!$ids['company_id'] || !$ids['product_id']) {
+        $ids = self::decodeProductId($path_id);
+        if (!$ids['company_id'] || !$ids['company_product_id']) {
             return [];
         }
         $products = self::getProducts($ids['company_id']);
         foreach ($products as $product) {
-            if ((string)$product['product_id'] === (string)$ids['product_id']) {
+            if ((string)$product['company_product_id'] === (string)$ids['company_product_id']) {
                 $product['rating_average'] = 0;
                 $product['rating_count'] = 0;
                 return $product;
@@ -168,10 +168,10 @@ class SearchService
                 foreach ($data as $item) {
                     $productId = $item['id'] ?? '';
                     $result[] = [
-                        'product_id' => $productId,
+                        'product_id' => self::encodeProductId($companyId, $productId),
+                        'company_product_id' => $productId,
                         'company_id' => $companyId,
                         'company_name' => $companyName,
-                        'path_id' => self::encodePathId($companyId, $productId),
                         'name' => $item['name'] ?? '',
                         'price' => $item['price'] ?? '',
                         'description' => $item['description'] ?? '',
@@ -186,25 +186,25 @@ class SearchService
         );
     }
 
-    private static function encodePathId(int $companyId, string $productId): string
+    private static function encodeProductId(int $companyId, string $productId): string
     {
         $raw = $companyId . ':' . $productId;
         return bin2hex($raw);
     }
 
-    public static function decodePathId(string $pathId): array
+    public static function decodeProductId(string $pathId): array
     {
         $decoded = @hex2bin($pathId);
         if ($decoded === false) {
-            return ['company_id' => null, 'product_id' => null];
+            return ['company_id' => null, 'company_product_id' => null];
         }
         $parts = explode(':', $decoded, 2);
         if (count($parts) !== 2) {
-            return ['company_id' => null, 'product_id' => null];
+            return ['company_id' => null, 'company_product_id' => null];
         }
         return [
             'company_id' => is_numeric($parts[0]) ? (int)$parts[0] : null,
-            'product_id' => $parts[1],
+            'company_product_id' => $parts[1],
         ];
     }
 }

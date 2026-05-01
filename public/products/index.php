@@ -25,16 +25,16 @@ LayoutService::requiredAuthenticated();
 
         function renderProducts(array $entities) {
             foreach ($entities as $entity) {
-                echo 'product_id: ' . htmlspecialchars((string)$entity['product_id']) . '<br>';
+                echo 'product_id: ' . htmlspecialchars($entity['product_id']) . '<br>';
+                echo 'product page: <a href="/products/' . htmlspecialchars($entity['product_id']) . '">/products/' . htmlspecialchars($entity['product_id']) . '</a><br>';
+                echo 'company_product_id: ' . htmlspecialchars((string)$entity['company_product_id']) . '<br>';
                 echo 'company_id: ' . htmlspecialchars((string)$entity['company_id']) . '<br>';
                 echo 'company_name: ' . htmlspecialchars($entity['company_name']) . '<br>';
-                echo 'path_id: ' . htmlspecialchars($entity['path_id']) . '<br>';
                 echo 'name: ' . htmlspecialchars($entity['name']) . '<br>';
                 echo 'price: ' . htmlspecialchars($entity['price']) . '<br>';
                 echo 'description: ' . htmlspecialchars($entity['description']) . '<br>';
                 echo 'imageUrl: <a href="' . htmlspecialchars($entity['imageUrl']) . '">' . htmlspecialchars($entity['imageUrl']) . '</a><br>';
                 echo 'websiteUrl: <a href="' . htmlspecialchars($entity['websiteUrl']) . '">' . htmlspecialchars($entity['websiteUrl']) . '</a><br>';
-                echo 'href: <a href="/products/' . htmlspecialchars($entity['path_id']) . '">/products/' . htmlspecialchars($entity['path_id']) . '</a><br>';
                 if (isset($entity['visit_count'])) echo 'visit_count: ' . htmlspecialchars((string)$entity['visit_count']) . '<br>';
                 if (isset($entity['rating_average'])) echo 'rating_average: ' . htmlspecialchars((string)$entity['rating_average']) . '<br>';
                 if (isset($entity['rating_count'])) echo 'rating_count: ' . htmlspecialchars((string)$entity['rating_count']) . '<br>';
