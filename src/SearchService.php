@@ -5,10 +5,123 @@ require_once __DIR__ . "/VersionService.php";
 
 class SearchService
 {
-    public static function getRawProducts(string $productsApiUrl): array
+    public const QUERY_NONE = null;
+    public const COMPANY_NONE = null;
+
+    public const SORT_NAME = 'sort_name';
+    public const SORT_TRENDING = 'sort_trending';
+    public const SORT_TOP_RATED = 'sort_top_rated';
+
+    public static function getCompanies(): array
+    {
+        // Return all enabled companies with id, name, and productsApiUrl
+        try {
+            $stmt = DatabaseService::getPdo()->query('SELECT id, name, productsApiUrl FROM company WHERE enabled = 1');
+            $companies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!is_array($companies)) {
+                return [];
+            }
+            return array_map(function ($row) {
+                return [
+                    'id' => (int)$row['id'],
+                    'name' => $row['name'],
+                    'productsApiUrl' => $row['productsApiUrl'],
+                ];
+            }, $companies);
+        } catch (Throwable $e) {
+            error_log('SearchService::getCompanies error: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public static function searchProducts(
+        ?string $query = self::QUERY_NONE,
+        ?string $sort = self::SORT_NAME,
+        ?int $company = self::COMPANY_NONE
+    ): array
     {
         return CacheService::memoize(
-            function () use ($productsApiUrl) {
+            function () use ($query, $sort, $company) {
+                try {
+                    // Get products, filtered by company if provided
+                    $products = self::getProducts($company);
+                    if (!is_array($products)) {
+                        $products = [];
+                    }
+
+                    // Filter by query if provided
+                    if ($query !== self::QUERY_NONE && $query !== null && $query !== '') {
+                        $q = mb_strtolower($query);
+                        $products = array_filter($products, function ($item) use ($q) {
+                            return (
+                                mb_strpos(mb_strtolower($item['name'] ?? ''), $q) !== false ||
+                                mb_strpos(mb_strtolower($item['price'] ?? ''), $q) !== false ||
+                                mb_strpos(mb_strtolower($item['description'] ?? ''), $q) !== false ||
+                                mb_strpos(mb_strtolower($item['company_name'] ?? ''), $q) !== false
+                            );
+                        });
+                        $products = array_values($products);
+                    }
+
+                    // Insert visit_count, rating_average, rating_count as index-based (reverse for visit_count)
+                    $count = count($products);
+                    foreach ($products as $i => &$item) {
+                        $item['visit_count'] = $count - $i - 1;
+                        $item['rating_average'] = $i;
+                        $item['rating_count'] = $i;
+                    }
+                    unset($item);
+
+                    // Sorting
+                    if ($sort === self::SORT_NAME) {
+                        usort($products, function ($a, $b) {
+                            return strcmp($a['name'], $b['name']);
+                        });
+                    } elseif ($sort === self::SORT_TRENDING) {
+                        usort($products, fn($a, $b) => $b['visit_count'] <=> $a['visit_count']);
+                    } elseif ($sort === self::SORT_TOP_RATED) {
+                        usort($products, fn($a, $b) => $b['rating_average'] <=> $a['rating_average']);
+                    }
+
+                    return $products;
+                } catch (\Throwable $e) {
+                    error_log('SearchService::searchProducts error: ' . $e->getMessage());
+                    return [];
+                }
+            },
+            ['SearchService::searchProducts', $query, $sort, $company],
+            CacheService::TWO_MINUTES
+        );
+    }
+
+    public static function getProducts(?int $company = self::COMPANY_NONE): array
+    {
+        // If a company is specified, return its products. Otherwise, aggregate for all enabled companies.
+        if ($company !== self::COMPANY_NONE && $company !== null) {
+            return self::getRawProducts($company);
+        }
+        $companies = self::getCompanies();
+        $allProducts = [];
+        foreach ($companies as $c) {
+            $allProducts = array_merge($allProducts, self::getRawProducts($c['id']));
+        }
+        return $allProducts;
+    }
+
+    public static function getRawProducts(int $companyId): array
+    {
+        return CacheService::memoize(
+            function () use ($companyId) {
+                $stmt = DatabaseService::getPdo()->prepare('SELECT productsApiUrl, name FROM company WHERE id = ? AND enabled = 1 LIMIT 1');
+                $stmt->execute([$companyId]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$row || empty($row['productsApiUrl'])) {
+                    error_log("SearchService::getRawProducts error: No productsApiUrl for company $companyId");
+                    return [];
+                }
+                $productsApiUrl = $row['productsApiUrl'];
+                $companyName = $row['name'];
+
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $productsApiUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -35,8 +148,12 @@ class SearchService
 
                 $result = [];
                 foreach ($data as $item) {
+                    $productId = $item['id'] ?? '';
                     $result[] = [
-                        'product_id' => $item['id'] ?? '',
+                        'product_id' => $productId,
+                        'company_id' => $companyId,
+                        'company_name' => $companyName,
+                        'path_id' => self::generatePathId($companyId, $productId),
                         'name' => $item['name'] ?? '',
                         'price' => $item['price'] ?? '',
                         'description' => $item['description'] ?? '',
@@ -46,8 +163,13 @@ class SearchService
                 }
                 return $result;
             },
-            ['SearchService::getRawProducts', $productsApiUrl],
+            ['SearchService::getRawProducts', $companyId],
             CacheService::FIVE_MINUTES
         );
+    }
+
+    private static function generatePathId(int $companyId, string $productId): string
+    {
+        return hash('sha256', $companyId . ':' . $productId);
     }
 }
