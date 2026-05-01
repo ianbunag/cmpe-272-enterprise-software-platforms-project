@@ -7,6 +7,9 @@
     </head>
     <body>
         <?php LayoutService::renderNavigation(); ?>
-        products
+        <?php
+            $products = SearchService::getRawProducts("http://nginx:80/api/test/products?company=1");
+            echo json_encode($products, JSON_PRETTY_PRINT);
+        ?>
     </body>
 </html>
