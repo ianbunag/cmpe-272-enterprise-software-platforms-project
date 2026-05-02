@@ -8,5 +8,6 @@
     <body>
         <?php LayoutService::renderNavigation(); ?>
         root
+        <?php LayoutService::renderFooter(); ?>
     </body>
 </html>
