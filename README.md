@@ -2,6 +2,9 @@
 
 A containerized enterprise software platform for CMPE-272 coursework project, featuring Docker, PHP, MySQL, Nginx, and automated CI/CD deployment.
 
+## Backlog
+https://github.com/users/ianbunag/projects/3/views/1
+
 ## Requirements
 
 ### Git
