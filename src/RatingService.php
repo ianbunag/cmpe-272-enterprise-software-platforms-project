@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/DatabaseService.php';
+
 class RatingService
 {
     public static function submitReview(string $productId, string $userId, string $userDisplayName, int $rating, string $comment): void

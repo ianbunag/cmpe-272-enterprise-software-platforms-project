@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../src/index.php';
 
-LayoutService::requiredAuthenticated();
+LayoutService::requireAuthenticated();
 
 $product = null;
 if (isset($_GET['id'])) {

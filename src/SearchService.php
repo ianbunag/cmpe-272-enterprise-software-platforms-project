@@ -125,7 +125,9 @@ class SearchService
         $companies = self::getCompanies();
         $allProducts = [];
         foreach ($companies as $c) {
-            $allProducts = array_merge($allProducts, self::getRawProducts($c['id']));
+            foreach (self::getRawProducts($c['id']) as $product) {
+                $allProducts[] = $product;
+            }
         }
         return $allProducts;
     }

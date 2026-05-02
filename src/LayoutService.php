@@ -5,7 +5,7 @@ require_once __DIR__ . '/UserService.php';
 
 class LayoutService
 {
-    public static function requiredAuthenticated(): void
+    public static function requireAuthenticated(): void
     {
         if (!UserService::isAuthenticated()) {
             header('Location: /login');
@@ -57,7 +57,7 @@ class LayoutService
                 <?php else: ?>
                     <div id="avatar-button" onclick="toggleUserMenu()" style="cursor: pointer; display: flex; align-items: center;">
                         <?php if ($url = UserService::getImageUrl()): ?>
-                            <img src="<?= $url ?>" alt="User" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid #ccc;">
+                            <img src="<?= htmlspecialchars((string)$url, ENT_QUOTES, 'UTF-8') ?>" alt="User" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid #ccc;">
                         <?php else: ?>
                             <div style="width: 38px; height: 38px; border-radius: 50%; background-color: #f6f6f6; border: 1px solid #ccc; color: #333; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem;">
                                 <?= htmlspecialchars(UserService::getInitials()) ?>
@@ -69,7 +69,7 @@ class LayoutService
                         <div style="padding: 8px; border-bottom: 1px solid #eee; margin-bottom: 8px; font-size: 0.8rem; color: #666; overflow: hidden; text-overflow: ellipsis;">
                             <?= htmlspecialchars(UserService::getDisplayName()) ?>
                         </div>
-                        <a href="/login" style="display: block; padding: 0.4rem 0.8rem; border: 1px solid #ccc; background-color: #f8f8f8; color: #333; text-decoration: none; border-radius: 4px; font-size: 0.85rem; text-align: center; font-weight: 500;">Logout</a>
+                        <a href="/logout" style="display: block; padding: 0.4rem 0.8rem; border: 1px solid #ccc; background-color: #f8f8f8; color: #333; text-decoration: none; border-radius: 4px; font-size: 0.85rem; text-align: center; font-weight: 500;">Logout</a>
                     </div>
                 <?php endif; ?>
             </div>
