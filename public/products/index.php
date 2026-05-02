@@ -1,9 +1,7 @@
 <?php
-
 require_once __DIR__ . '/../../src/index.php';
 
 LayoutService::requireAuthenticated();
-
 ?>
 
 <!DOCTYPE html>
