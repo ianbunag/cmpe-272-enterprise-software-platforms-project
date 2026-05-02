@@ -75,6 +75,14 @@ if (!$product) {
                 echo "<h2>No worst user review</h2>";
                 echo "<hr>";
             }
+
+//            RatingService::submitReview(
+//                $product['product_id'],
+//                UserService::getId(),
+//                UserService::getDisplayName(),
+//                5,
+//                "I really love how sturdy this desk feels because it does not wobble at all when I type. The assembly was very quick and I would definitely recommend it to anyone who needs a solid workspace."
+//            );
             // @TODO end of example service usage, remove later.
         ?>
     </body>
