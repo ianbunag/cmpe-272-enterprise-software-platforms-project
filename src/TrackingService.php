@@ -31,7 +31,7 @@ class TrackingService
         }
     }
 
-    public function getVisits(array $productIds): array
+    public static function getVisits(array $productIds): array
     {
         $results = array_fill_keys($productIds, 0);
 

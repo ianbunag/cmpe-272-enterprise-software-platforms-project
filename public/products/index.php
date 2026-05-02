@@ -14,6 +14,7 @@ LayoutService::requiredAuthenticated();
     <body>
         <?php LayoutService::renderNavigation(); ?>
         <?php
+        // @TODO example usage only, remove later.
         function renderCompanies(array $entities) {
             foreach ($entities as $entity) {
                 echo 'id: ' . htmlspecialchars((string)$entity['id']) . '<br>';
@@ -23,6 +24,7 @@ LayoutService::requiredAuthenticated();
             }
         }
 
+        // @TODO example usage only, remove later.
         function renderProducts(array $entities) {
             foreach ($entities as $entity) {
                 echo 'product_id: ' . htmlspecialchars($entity['product_id']) . '<br>';

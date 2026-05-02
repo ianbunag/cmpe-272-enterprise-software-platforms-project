@@ -4,6 +4,7 @@ require_once __DIR__ . "/CacheService.php";
 require_once __DIR__ . "/VersionService.php";
 require_once __DIR__ . '/DatabaseService.php';
 require_once __DIR__ . '/TrackingService.php';
+require_once __DIR__ . '/RatingService.php';
 
 class SearchService
 {
@@ -65,13 +66,14 @@ class SearchService
 
             // Fetch real visit counts from TrackingService
             $productIds = array_column($products, 'product_id');
-            $visitCounts = (new TrackingService())->getVisits($productIds);
+            $visitCounts = TrackingService::getVisits($productIds);
+            $reviewCounts = RatingService::getReviews($productIds);
 
             // Insert visit_count, rating_average, rating_count
             foreach ($products as $i => &$item) {
                 $item['visit_count'] = $visitCounts[$item['product_id']] ?? 0;
-                $item['rating_average'] = $i;
-                $item['rating_count'] = $i;
+                $item['rating_average'] = $reviewCounts[$item['product_id']]['rating_average'] ?? 0;
+                $item['rating_count'] = $reviewCounts[$item['product_id']]['rating_count'] ?? 0;
             }
             unset($item);
 
@@ -87,7 +89,7 @@ class SearchService
             }
 
             return $products;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             error_log('SearchService::searchProducts error: ' . $e->getMessage());
             return [];
         }
@@ -102,10 +104,11 @@ class SearchService
         $products = self::getProducts($ids['company_id']);
         foreach ($products as $product) {
             if ((string)$product['product_id'] === $productId) {
-                $visitCounts = (new TrackingService())->getVisits([$productId]);
+                $visitCounts = TrackingService::getVisits([$productId]);
+                $reviewCounts = RatingService::getReviews([$productId]);
                 $product['visit_count'] = $visitCounts[$productId] ?? 0;
-                $product['rating_average'] = 0;
-                $product['rating_count'] = 0;
+                $product['rating_average'] = $reviewCounts[$productId]['rating_average'] ?? 0;
+                $product['rating_count'] = $reviewCounts[$productId]['rating_count'] ?? 0;
                 return $product;
             }
         }
