@@ -14,7 +14,7 @@ LayoutService::requiredAuthenticated();
     <body>
         <?php LayoutService::renderNavigation(); ?>
         <?php
-        // @TODO example usage only, remove later.
+        // @TODO start of example service usage, remove later.
         function renderCompanies(array $entities) {
             foreach ($entities as $entity) {
                 echo 'id: ' . htmlspecialchars((string)$entity['id']) . '<br>';
@@ -24,7 +24,6 @@ LayoutService::requiredAuthenticated();
             }
         }
 
-        // @TODO example usage only, remove later.
         function renderProducts(array $entities) {
             foreach ($entities as $entity) {
                 echo 'product_id: ' . htmlspecialchars($entity['product_id']) . '<br>';
@@ -61,6 +60,7 @@ LayoutService::requiredAuthenticated();
 
         echo "<h2>Products (\$query = \"with\", \$sort = SearchService::SORT_TOP_RATED, \$company = \"" . $companies[0]['name'] . "\")</h2>";
         renderProducts(SearchService::searchProducts("with", SearchService::SORT_TOP_RATED, $companies[0]['id']));
+        // @TODO end of example service usage, remove later.
         ?>
     </body>
 </html>

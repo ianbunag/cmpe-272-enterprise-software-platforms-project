@@ -22,7 +22,7 @@ if (!$product) {
     <body>
         <?php LayoutService::renderNavigation(); ?>
         <?php
-            // @TODO example usage only, remove later.
+            // @TODO start of example service usage, remove later.
             function renderReview(array $review) {
                 echo 'product_id: ' . htmlspecialchars((string)$review['product_id']) . '<br>';
                 echo 'user_id: ' . htmlspecialchars((string)$review['user_id']) . '<br>';
@@ -75,6 +75,7 @@ if (!$product) {
                 echo "<h2>No worst user review</h2>";
                 echo "<hr>";
             }
+            // @TODO end of example service usage, remove later.
         ?>
     </body>
 </html>
