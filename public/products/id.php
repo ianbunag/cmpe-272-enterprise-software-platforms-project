@@ -85,6 +85,7 @@ if (!$product) {
 //            );
             // @TODO end of example service usage, remove later.
         ?>
+        <?php LayoutService::renderFooter(); ?>
     </body>
 </html>
 

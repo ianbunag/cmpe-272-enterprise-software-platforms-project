@@ -76,4 +76,35 @@ class LayoutService
         </nav>
         <?php
     }
+
+    public static function renderFooter(): void
+    {
+        ?>
+        <footer style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem; background-color: #fdfdfd; border-top: 1px solid #ddd; margin-top: 3rem; font-size: 0.85rem; color: #666;">
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+                <div>
+                    <p style="margin: 0; font-weight: 600; color: #111; margin-bottom: 0.3rem;">Sun & String</p>
+                    <p style="margin: 0; font-size: 0.75rem;">Your marketplace for curated products</p>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.8rem;">
+                    <span>•</span>
+                    <a href="mailto:support.sunandstring@ianbunag.dev" style="text-decoration: none; color: #007bff;">support.sunandstring@ianbunag.dev</a>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">
+                <a href="/terms" style="text-decoration: none; color: #666;">Terms of Service</a>
+                <span style="color: #ccc;">•</span>
+                <a href="/privacy" style="text-decoration: none; color: #666;">Privacy Policy</a>
+                <span style="color: #ccc;">•</span>
+                <a href="/vendor-onboarding" style="text-decoration: none; color: #666;">For Vendors</a>
+            </div>
+
+            <div style="width: 100%; text-align: center; padding-top: 1rem; border-top: 1px solid #eee; margin-top: 1rem; color: #999; font-size: 0.75rem;">
+                <p style="margin: 0;">© <?= date('Y') ?> Sun & String. All rights reserved. v<?= VersionService::getVersion() ?></p>
+            </div>
+        </footer>
+        <?php
+    }
 }
+

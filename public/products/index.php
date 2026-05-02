@@ -60,5 +60,6 @@ LayoutService::requireAuthenticated();
         renderProducts(SearchService::searchProducts("with", SearchService::SORT_TOP_RATED, $companies[0]['id']));
         // @TODO end of example service usage, remove later.
         ?>
+        <?php LayoutService::renderFooter(); ?>
     </body>
 </html>
