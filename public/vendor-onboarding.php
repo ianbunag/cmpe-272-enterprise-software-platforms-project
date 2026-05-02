@@ -14,7 +14,7 @@
             <p>Join Sun & String and reach millions of customers. Our marketplace connects vendors like you with customers looking for curated products.</p>
 
             <h2>Getting Started</h2>
-            <p>To list your products on Sun & String, follow the steps below. For detailed technical documentation, please refer to our <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project/blob/main/CONTRIBUTING.md#adding-your-company-to-the-marketplace" target="_blank">Developer Guide</a>.</p>
+            <p>To list your products on Sun & String, follow the steps below. For detailed technical documentation, please refer to our <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project/blob/main/CONTRIBUTING.md#adding-your-company-to-the-marketplace" target="_blank" rel="noopener noreferrer">Developer Guide</a>.</p>
 
             <h2>Step 1: Add Your Company to the Database</h2>
             <p>Contact our support team at <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a> to provision your company account. You will need to provide:</p>
@@ -32,12 +32,12 @@
             </ul>
 
             <h2>Step 3: Match the OpenAPI Specification</h2>
-            <p>The required API contract is defined in our <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project/blob/main/open-api-spec.yaml" target="_blank">OpenAPI Specification</a>.</p>
+            <p>The required API contract is defined in our <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project/blob/main/open-api-spec.yaml" target="_blank" rel="noopener noreferrer">OpenAPI Specification</a>.</p>
 
             <p>To view and validate your API:</p>
             <ol>
                 <li>Download the <code>open-api-spec.yaml</code> file from the link above</li>
-                <li>Visit <a href="https://editor.swagger.io" target="_blank">Swagger Editor</a></li>
+                <li>Visit <a href="https://editor.swagger.io" target="_blank" rel="noopener noreferrer">Swagger Editor</a></li>
                 <li>Paste the contents of the specification file</li>
                 <li>Test your endpoint against the specification</li>
             </ol>
@@ -66,7 +66,7 @@
             <p>If you have questions or need technical assistance with the integration, please reach out to our support team:</p>
             <ul>
                 <li><strong>Email:</strong> <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a></li>
-                <li><strong>GitHub Repository:</strong> <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project" target="_blank">sunandstring/marketplace</a></li>
+                <li><strong>GitHub Repository:</strong> <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project" target="_blank" rel="noopener noreferrer">sunandstring/marketplace</a></li>
             </ul>
 
             <h2>Ready to Get Started?</h2>

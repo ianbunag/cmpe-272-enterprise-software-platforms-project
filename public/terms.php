@@ -11,7 +11,7 @@
         <main style="max-width: 900px; margin: 2rem auto; padding: 0 1.5rem;">
             <h1>Terms of Service</h1>
 
-            <p><strong>Last Updated:</strong> <?= date('F d, Y') ?></p>
+            <p><strong>Last Updated:</strong> May 02, 2026</p>
 
             <h2>1. Agreement to Terms</h2>
             <p>By accessing and using the Sun & String marketplace, you agree to be bound by these Terms of Service. If you do not agree to abide by the above, please do not use this service.</p>

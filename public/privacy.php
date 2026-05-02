@@ -11,7 +11,7 @@
         <main style="max-width: 900px; margin: 2rem auto; padding: 0 1.5rem;">
             <h1>Privacy Policy</h1>
 
-            <p><strong>Last Updated:</strong> <?= date('F d, Y') ?></p>
+            <p><strong>Last Updated:</strong> May 02, 2026</p>
 
             <h2>1. Introduction</h2>
             <p>Sun & String ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.</p>
