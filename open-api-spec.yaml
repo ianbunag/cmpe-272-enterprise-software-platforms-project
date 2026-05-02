@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Product API
+  description: A collection of products listed in the marketplace.
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: Retrieve the list of products
+      responses:
+        '200':
+          description: A successful response returning a JSON array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              example:
+                - id: "1"
+                  name: "Europe Tour"
+                  price: "$2,499"
+                  description: "Explore Paris, Rome, and London in one unforgettable journey."
+                  imageUrl: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b"
+                  url: "https://mulugetagirmay.com/hw/product.php?name=Europe%20Tour"
+                - id: "2"
+                  name: "Family Vacation"
+                  price: "$1,599"
+                  description: "Fun for the whole family."
+                  imageUrl: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"
+                  url: "https://mulugetagirmay.com/hw/product.php?name=Family%20Vacation"
+                - id: "a"
+                  name: "Competitive Coaching"
+                  price: "$120/session, $600/month"
+                  description: "Competitive archery demands more than good form, mental toughness, tactical preparation, and the ability to perform under pressure."
+                  imageUrl: "https://fastly.picsum.photos/id/516/800/420.jpg?hmac=FpZ2PHASX6lfO1BTXLV6QXoHqBFVszX8vgckK85XkHw"
+                  url: "http://brandonr.xyz/product_competitive.php"
+                - id: "b"
+                  name: "Compound Bows"
+                  price: "$300 – $1,800"
+                  description: "The compound bow uses a system of cams and cables to provide a mechanical advantage."
+                  imageUrl: "https://fastly.picsum.photos/id/699/800/420.jpg?hmac=67-MdDGF6NkUu3lNHpI3s1P2eJv9qnozOaN6qwGKKAk"
+                  url: "http://brandonr.xyz/product_compound.php"
+                - id: "1a"
+                  name: "Blue Java (Hawaii)"
+                  price: "$4.99 per lb"
+                  description: "Creamy vanilla ice cream flavor with a smooth, sweet finish"
+                  imageUrl: "https://cdn.cmpe-272.ianbunag.dev/banana-buoy/products/blue-java.webp"
+                  url: "https://cmpe-272.ianbunag.dev/banana-buoy/products/1"
+                - id: "2b"
+                  name: "Burro (Mexico)"
+                  price: "$4.49 per lb"
+                  description: "Tangy lemon flavor when unripe, sweet when ripe"
+                  imageUrl: "https://cdn.cmpe-272.ianbunag.dev/banana-buoy/products/burro.webp"
+                  url: "https://cmpe-272.ianbunag.dev/banana-buoy/products/6"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        url:
+          type: string
