@@ -63,3 +63,40 @@ The Docker Compose setup is not intended for further development or modification
 
 To run the application locally, use Docker Compose commands to start the services. Nginx proxies requests to PHP-FPM, which executes your PHP files.
 
+# Getting Started with This Codebase
+
+## Adding Your Company to the Marketplace
+
+To list your products in the marketplace, follow these steps:
+
+### 1. Add Your Company to the Database
+
+Insert a row into the `company` table with the following fields:
+- `id`: Unique integer ID for your company (auto-generated)
+- `name`: Your company name
+- `productsApiUrl`: The public URL to your product API endpoint (see below)
+- `enabled`: Set to `1` to make your company visible in the marketplace
+
+**Example SQL:**
+```sql
+INSERT INTO company (name, productsApiUrl, enabled)
+VALUES ('Acme Travel', 'https://yourdomain.com/products', 1);
+```
+
+### 2. Expose a Product API Endpoint
+
+Your website must provide a public HTTP endpoint that returns your product list in the format defined by the marketplace OpenAPI spec. The endpoint URL you provide in `productsApiUrl` will be called by the marketplace to fetch your products.
+
+- The endpoint must be accessible via HTTPS.
+- The endpoint must respond to a `GET` request with a JSON array of products.
+- Each product must match the schema in [open-api-spec.yaml](./open-api-spec.yaml).
+
+### 3. Match the OpenAPI Specification
+
+The required API contract is defined in [open-api-spec.yaml](./open-api-spec.yaml). To view and validate your API, view the contents of [open-api-spec.yaml](./open-api-spec.yaml) in your preferred IDE or copy it into [Swagger Editor](https://editor.swagger.io).
+
+### 4. Example Endpoint
+
+You can see a working example at:
+
+    https://your-marketplace-domain/api/test/products
