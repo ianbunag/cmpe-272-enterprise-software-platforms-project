@@ -5,6 +5,7 @@ define('CacheServiceEnabled', !getenv('ENABLE_CACHE') || getenv('ENABLE_CACHE') 
 class CacheService
 {
     public const FIVE_MINUTES = 300;
+    public const TWO_MINUTES = 120;
     public const FIVE_SECONDS = 5;
 
     public static function memoize(callable $callback, array $dependencies, int $duration = self::FIVE_MINUTES): mixed

@@ -32,7 +32,7 @@ Dynamic pages with URL parameters are routed through the Nginx configuration in 
 2. Extract route parameters from the URL
 3. Rewrite the request to a target PHP file with parameters passed as query strings
 
-Look at the existing shop route (`/shop/[id]`) in `/nginx/default.conf` to see the pattern. Create new dynamic routes by adding corresponding `map` blocks and ensuring the target PHP file exists in `/public`.
+Look at the existing products route (`/products/[id]`) in `/nginx/default.conf` to see the pattern. Create new dynamic routes by adding corresponding `map` blocks and ensuring the target PHP file exists in `/public`.
 
 Pages should include the shared layout by requiring `/src/index.php`, which loads common services.
 
