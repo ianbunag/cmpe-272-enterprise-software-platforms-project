@@ -39,6 +39,7 @@ COPY public ./public
 COPY src ./src
 COPY migrations ./migrations
 COPY phinx.php ./
+COPY firebase-config.json ./
 COPY VERSION ./
 COPY php-fpm/prod.ini /usr/local/etc/php/conf.d/prod.ini
 
