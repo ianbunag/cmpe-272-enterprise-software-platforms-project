@@ -23,19 +23,37 @@ class SessionService
 
                 window.sessionService = (() => {
                     function createSession(token, user) {
-                        // Parse JWT token to get expiration time
-                        const parts = token.split('.');
-                        const payload = JSON.parse(atob(parts[1]));
-                        const expirationTime = payload.exp * 1000; // Convert to milliseconds
-                        const maxAge = Math.floor((expirationTime - Date.now()) / 1000);
+                        let maxAgeAttr = "";
 
-                        // Set cookies with expiration matching token expiration (~1 hour)
-                        document.cookie = `firebaseToken=${token}; path=/; SameSite=Lax; max-age=${maxAge}`;
-                        document.cookie = `firebaseUserId=${user.providerData[0].providerId}:${user.providerData[0].uid}; path=/; SameSite=Lax; max-age=${maxAge}`;
-                        document.cookie = `firebaseDisplayName=${user.displayName}; path=/; SameSite=Lax; max-age=${maxAge}`;
+                        try {
+                            const parts = token.split('.');
+                            if (parts.length === 3) {
+                                const payload = JSON.parse(atob(parts[1]));
+                                const expirationTime = payload.exp * 1000;
+                                const maxAge = Math.floor((expirationTime - Date.now()) / 1000);
+
+                                // Only apply max-age if the calculation resulted in a positive number
+                                if (maxAge > 0) {
+                                    maxAgeAttr = `; max-age=${maxAge}`;
+                                }
+                            }
+                        } catch (error) {
+                            // Silently suppress errors and proceed with session cookies
+                            console.warn("Could not parse token expiration so falling back to session cookies");
+                        }
+
+                        const commonSettings = `; path=/; SameSite=Lax${maxAgeAttr}`;
+
+                        document.cookie = `firebaseToken=${encodeURIComponent(token)}${commonSettings}`;
+
+                        // Safely handle provider data to prevent errors if the array is empty
+                        const provider = user.providerData && user.providerData[0] ? user.providerData[0] : { providerId: 'firebase', uid: user.uid };
+                        document.cookie = `firebaseUserId=${encodeURIComponent(provider.providerId + ':' + provider.uid)}${commonSettings}`;
+
+                        document.cookie = `firebaseDisplayName=${encodeURIComponent(user.displayName)}${commonSettings}`;
 
                         if (user.photoURL) {
-                            document.cookie = `firebaseImageUrl=${encodeURI(user.photoURL)}; path=/; SameSite=Lax; max-age=${maxAge}`;
+                            document.cookie = `firebaseImageUrl=${encodeURIComponent(user.photoURL)}${commonSettings}`;
                         }
                     }
 
@@ -121,12 +139,8 @@ class SessionService
 
         self::$isAuthenticated = false;
 
-        if (
-            isset($_COOKIE['firebaseToken']) &&
-            isset($_COOKIE['firebaseUserId']) &&
-            isset($_COOKIE['firebaseDisplayName'])
-        ) {
-            $parts = explode('.', $_COOKIE['firebaseToken']);
+        if (self::getToken() && self::getUserId() && self::getUserDisplayName()) {
+            $parts = explode('.', self::getToken());
 
             if (count($parts) === 3) {
                 $payload = json_decode(base64_decode($parts[1]), true);
@@ -162,7 +176,7 @@ class SessionService
             return null;
         }
 
-        return $_COOKIE['firebaseUserId'];
+        return urldecode($_COOKIE['firebaseUserId']);
     }
 
     public static function getUserDisplayName(): ?string
@@ -171,7 +185,7 @@ class SessionService
             return null;
         }
 
-        return $_COOKIE['firebaseDisplayName'];
+        return urldecode($_COOKIE['firebaseDisplayName']);
     }
 
     public static function getUserImageUrl(): ?string
@@ -180,7 +194,16 @@ class SessionService
             return null;
         }
 
-        return $_COOKIE['firebaseImageUrl'];
+        return urldecode($_COOKIE['firebaseImageUrl']);
+    }
+
+    private static function getToken(): ?string
+    {
+        if (!isset($_COOKIE['firebaseToken'])) {
+            return null;
+        }
+
+        return urldecode($_COOKIE['firebaseToken']);
     }
 
     private static function getConfig(): array

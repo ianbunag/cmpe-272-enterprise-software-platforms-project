@@ -5,7 +5,7 @@
     if (isset($_GET['returnTo'])) {
         $parsedUrl = parse_url(urldecode($_GET['returnTo']));
         // Ensure it's a path-only URL (no scheme/host) and starts with /
-        if (isset($parsedUrl['path']) && strpos($parsedUrl['path'], '/') === 0 && !isset($parsedUrl['scheme']) && !isset($parsedUrl['host'])) {
+        if (is_array($parsedUrl) && isset($parsedUrl['path']) && strpos($parsedUrl['path'], '/') === 0 && !isset($parsedUrl['scheme']) && !isset($parsedUrl['host'])) {
             $returnTo = urldecode($parsedUrl['path']);
             if (isset($parsedUrl['query'])) {
                 $returnTo .= '?' . $parsedUrl['query'];

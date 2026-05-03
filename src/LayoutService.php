@@ -68,14 +68,14 @@ class LayoutService
                     const menu = document.getElementById('user-menu-dropdown');
                     menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
                 }
-                window.onclick = function(event) {
+                window.addEventListener('click', function(event) {
                     if (!event.target.matches('#avatar-button') && !event.target.closest('#avatar-button')) {
                         const menu = document.getElementById('user-menu-dropdown');
                         if (menu) {
                             menu.style.display = 'none';
                         }
                     }
-                }
+                })
             </script>
         </nav>
         <?php
