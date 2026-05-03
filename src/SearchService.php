@@ -172,15 +172,38 @@ class SearchService
 
                 $result = [];
                 foreach ($data as $item) {
-                    $productId = $item['id'] ?? '';
+                    // Validate all required fields exist and have correct types
+                    if (!is_array($item)) {
+                        continue;
+                    }
+                    if (!isset($item['id']) || !is_string($item['id'])) {
+                        continue;
+                    }
+                    if (!isset($item['name']) || !is_string($item['name'])) {
+                        continue;
+                    }
+                    if (!isset($item['price']) || !is_string($item['price'])) {
+                        continue;
+                    }
+                    if (!isset($item['description']) || !is_string($item['description'])) {
+                        continue;
+                    }
+                    if (!isset($item['imageUrl']) || !is_string($item['imageUrl'])) {
+                        continue;
+                    }
+                    if (!isset($item['url']) || !is_string($item['url'])) {
+                        continue;
+                    }
+
+                    // All validations passed, add to result
                     $result[] = [
-                        'product_id' => self::encodeProductId($companyId, $productId),
-                        'name' => $item['name'] ?? '',
+                        'product_id' => self::encodeProductId($companyId, $item['id']),
+                        'name' => $item['name'],
                         'company_name' => $companyName,
-                        'price' => $item['price'] ?? '',
-                        'description' => $item['description'] ?? '',
-                        'imageUrl' => $item['imageUrl'] ?? '',
-                        'websiteUrl' => $item['url'] ?? '',
+                        'price' => $item['price'],
+                        'description' => $item['description'],
+                        'imageUrl' => $item['imageUrl'],
+                        'websiteUrl' => $item['url'],
                     ];
                 }
                 return $result;
