@@ -43,6 +43,18 @@ git clone git@github.com:ianbunag/cmpe-272-enterprise-software-platforms-project
 cd cmpe-272-enterprise-software-platforms-project
 ```
 
+### Copy firebase-config.json.example to firebase-config.json
+
+If not already set up, create and configure a [Firebase Authentication](https://firebase.google.com/docs/auth) project and obtain the necessary credentials.
+
+Keep the example configuration file up-to-date with the actual credentials.
+
+```bash
+cp firebase-config.json.example firebase-config.json
+```
+
+> Firebase Authentication credentials are committed to the repository as they are not sensitive.
+
 ### Copy .env.example to .env and update values as needed
 ```bash
 cp .env.example .env

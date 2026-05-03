@@ -58,6 +58,7 @@ services:
       - ./src:/var/www/html/src:ro
       - ./migrations:/var/www/html/migrations:ro
       - ./phinx.php:/var/www/html/phinx.php:ro
+      - ./firebase-config.json:/var/www/html/firebase-config.json:ro
       - ./php-fpm/prod.ini:/usr/local/etc/php/conf.d/prod.ini:ro
       - ./php-fpm/dev.ini:/usr/local/etc/php/conf.d/dev.ini:ro
     depends_on:

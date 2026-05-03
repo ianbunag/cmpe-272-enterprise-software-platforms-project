@@ -1,14 +1,17 @@
 <?php
 
 require_once __DIR__ . "/VersionService.php";
-require_once __DIR__ . '/UserService.php';
+require_once __DIR__ . '/SessionService.php';
 
 class LayoutService
 {
     public static function requireAuthenticated(): void
     {
-        if (!UserService::isAuthenticated()) {
-            header('Location: /login');
+        if (!SessionService::isAuthenticated()) {
+            $currentUrl = $_SERVER['REQUEST_URI'] ?? '/';
+            $returnTo = urlencode($currentUrl);
+            header("Location: /login?returnTo=$returnTo");
+            SessionService::clearAuthentication();
             exit();
         }
     }
@@ -22,26 +25,12 @@ class LayoutService
         <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico?version=<?= VersionService::getVersion() ?>">
         <link rel="stylesheet" href="/static/index.css?version=<?= VersionService::getVersion() ?>">
-        <script>
-            function toggleUserMenu() {
-                const menu = document.getElementById('user-menu-dropdown');
-                menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-            }
-            window.onclick = function(event) {
-                if (!event.target.matches('#avatar-button') && !event.target.closest('#avatar-button')) {
-                    const menu = document.getElementById('user-menu-dropdown');
-                    if (menu) {
-                        menu.style.display = 'none';
-                    }
-                }
-            }
-        </script>
         <?php
+        SessionService::initialize();
     }
 
     public static function renderNavigation(): void
     {
-        $isAuthenticated = UserService::isAuthenticated();
         ?>
         <nav style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1.5rem; background-color: #fdfdfd; border-bottom: 1px solid #ddd; position: relative;">
             <div style="display: flex; align-items: center; gap: 2rem;">
@@ -52,8 +41,8 @@ class LayoutService
             </div>
 
             <div style="position: relative;">
-                <?php if (!$isAuthenticated): ?>
-                    <a href="/login" style="display: inline-block; padding: 0.4rem 1rem; border: 1px solid #111; background-color: #fff; color: #111; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.9rem;">Login</a>
+                <?php if (!SessionService::isAuthenticated()): ?>
+                    <a href="/login?returnTo=<?php echo urlencode($_SERVER['REQUEST_URI'] ?? '/'); ?>" style="display: inline-block; padding: 0.4rem 1rem; border: 1px solid #111; background-color: #fff; color: #111; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.9rem;">Login</a>
                 <?php else: ?>
                     <div id="avatar-button" onclick="toggleUserMenu()" style="cursor: pointer; display: flex; align-items: center;">
                         <?php if ($url = UserService::getImageUrl()): ?>
@@ -69,10 +58,25 @@ class LayoutService
                         <div style="padding: 8px; border-bottom: 1px solid #eee; margin-bottom: 8px; font-size: 0.8rem; color: #666; overflow: hidden; text-overflow: ellipsis;">
                             <?= htmlspecialchars(UserService::getDisplayName()) ?>
                         </div>
-                        <a href="/logout" style="display: block; padding: 0.4rem 0.8rem; border: 1px solid #ccc; background-color: #f8f8f8; color: #333; text-decoration: none; border-radius: 4px; font-size: 0.85rem; text-align: center; font-weight: 500;">Logout</a>
+                        <a href="/" onclick="window.sessionService.signOut(); return false;" style="display: block; padding: 0.4rem 0.8rem; border: 1px solid #ccc; background-color: #f8f8f8; color: #333; text-decoration: none; border-radius: 4px; font-size: 0.85rem; text-align: center; font-weight: 500;">Logout</a>
                     </div>
                 <?php endif; ?>
             </div>
+
+            <script>
+                function toggleUserMenu() {
+                    const menu = document.getElementById('user-menu-dropdown');
+                    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+                }
+                window.addEventListener('click', function(event) {
+                    if (!event.target.matches('#avatar-button') && !event.target.closest('#avatar-button')) {
+                        const menu = document.getElementById('user-menu-dropdown');
+                        if (menu) {
+                            menu.style.display = 'none';
+                        }
+                    }
+                })
+            </script>
         </nav>
         <?php
     }

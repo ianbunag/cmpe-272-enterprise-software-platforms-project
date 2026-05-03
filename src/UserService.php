@@ -1,25 +1,21 @@
 <?php
+require_once __DIR__ . '/SessionService.php';
 
 class UserService
 {
-    public static function isAuthenticated(): bool
-    {
-        return true;
-    }
-
     public static function getId(): string
     {
-        return "test-id";
+        return SessionService::getUserId() ?? "anonymous";
     }
 
     public static function getDisplayName(): string
     {
-        return "some.one@sjsu.edu";
+        return SessionService::getUserDisplayName() ?? "Anonymous";
     }
 
     public static function getImageUrl(): ?string
     {
-        return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmEv7XnCsbPaODoDKRHQwaxr3-KBM4vgaZMw&s";
+        return SessionService::getUserImageUrl();
     }
 
     public static function getInitials(): string

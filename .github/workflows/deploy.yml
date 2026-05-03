@@ -23,6 +23,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create firebase-config.json from example
+        run: cp firebase-config.json.example firebase-config.json
+
       - name: Create VERSION file
         run: echo "${{ github.ref_name }}" > VERSION
 
