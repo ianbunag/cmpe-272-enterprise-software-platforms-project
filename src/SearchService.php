@@ -174,24 +174,31 @@ class SearchService
                 foreach ($data as $item) {
                     // Validate all required fields exist and have correct types
                     if (!is_array($item)) {
+                        error_log("SearchService::getRawProducts error: Product entry is not an array for company $companyId");
                         continue;
                     }
                     if (!isset($item['id']) || !is_string($item['id'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'id' field for company $companyId");
                         continue;
                     }
                     if (!isset($item['name']) || !is_string($item['name'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'name' field for company $companyId product {$item['id']}");
                         continue;
                     }
                     if (!isset($item['price']) || !is_string($item['price'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'price' field for company $companyId product {$item['id']}");
                         continue;
                     }
                     if (!isset($item['description']) || !is_string($item['description'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'description' field for company $companyId product {$item['id']}");
                         continue;
                     }
                     if (!isset($item['imageUrl']) || !is_string($item['imageUrl'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'imageUrl' field for company $companyId product {$item['id']}");
                         continue;
                     }
                     if (!isset($item['url']) || !is_string($item['url'])) {
+                        error_log("SearchService::getRawProducts error: Product missing or invalid 'url' field for company $companyId product {$item['id']}");
                         continue;
                     }
 
