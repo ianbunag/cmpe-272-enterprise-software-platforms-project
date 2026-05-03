@@ -1,14 +1,9 @@
 <?php require_once __DIR__ . '/../src/index.php'; ?>
 <?php
-    if (SessionService::isAuthenticated()) {
-        header('Location: /');
-        exit();
-    }
-
     // Validate and sanitize returnTo parameter - only allow internal URLs
     $returnTo = '/';
     if (isset($_GET['returnTo'])) {
-        $parsedUrl = parse_url($_GET['returnTo']);
+        $parsedUrl = parse_url(urldecode($_GET['returnTo']));
         // Ensure it's a path-only URL (no scheme/host) and starts with /
         if (isset($parsedUrl['path']) && strpos($parsedUrl['path'], '/') === 0 && !isset($parsedUrl['scheme']) && !isset($parsedUrl['host'])) {
             $returnTo = urldecode($parsedUrl['path']);
@@ -17,11 +12,19 @@
             }
         }
     }
+
+    if (SessionService::isAuthenticated()) {
+        header("Location: $returnTo");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php LayoutService::renderHeaders("Login"); ?>
+        <?php
+            LayoutService::renderHeaders("Login");
+            SessionService::initializeLogin();
+        ?>
         <style>
             body {
                 display: flex;
@@ -82,7 +85,9 @@
     <body>
         <div id="login-container">
             <div id="login-header">
-                <img src="/static/logo.png?version=<?= VersionService::getVersion() ?>" alt="Logo" id="login-logo">
+                <a href="/" style="display: block; line-height: 0; text-decoration: none;">
+                    <img src="/static/logo.png?version=<?= VersionService::getVersion() ?>" alt="Logo" id="login-logo">
+                </a>
                 <p id="login-subtitle">Your marketplace for curated products</p>
             </div>
 
@@ -97,7 +102,7 @@
         </div>
 
         <script>
-            sessionService.login("#firebaseui-auth-container", <?php echo json_encode($returnTo); ?>);
+            window.sessionService.login("#firebaseui-auth-container", <?php echo json_encode($returnTo); ?>);
         </script>
     </body>
 </html>

@@ -4,13 +4,13 @@ class SessionService
 {
     private static ?array $config = null;
 
+    private static ?bool $isAuthenticated = null;
+
     public static function initialize(): void
     {
         ?>
             <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
             <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-auth-compat.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
-            <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
             <script>
                 firebase.initializeApp({
                     apiKey: <?php echo json_encode(self::getConfig()["apiKey"]); ?>,
@@ -21,14 +21,21 @@ class SessionService
                     appId: <?php echo json_encode(self::getConfig()["appId"]); ?>,
                 });
 
-                const sessionService = (() => {
+                window.sessionService = (() => {
                     function createSession(token, user) {
-                        document.cookie = `firebaseToken=${token}; path=/; SameSite=Lax`;
-                        document.cookie = `firebaseUserId=${user.providerData[0].providerId}:${user.providerData[0].uid}; path=/; SameSite=Lax`;
-                        document.cookie = `firebaseDisplayName=${user.displayName}; path=/; SameSite=Lax`;
+                        // Parse JWT token to get expiration time
+                        const parts = token.split('.');
+                        const payload = JSON.parse(atob(parts[1]));
+                        const expirationTime = payload.exp * 1000; // Convert to milliseconds
+                        const maxAge = Math.floor((expirationTime - Date.now()) / 1000);
+
+                        // Set cookies with expiration matching token expiration (~1 hour)
+                        document.cookie = `firebaseToken=${token}; path=/; SameSite=Lax; max-age=${maxAge}`;
+                        document.cookie = `firebaseUserId=${user.providerData[0].providerId}:${user.providerData[0].uid}; path=/; SameSite=Lax; max-age=${maxAge}`;
+                        document.cookie = `firebaseDisplayName=${user.displayName}; path=/; SameSite=Lax; max-age=${maxAge}`;
 
                         if (user.photoURL) {
-                            document.cookie = `firebaseImageUrl=${user.photoURL}; path=/; SameSite=Lax`;
+                            document.cookie = `firebaseImageUrl=${encodeURI(user.photoURL)}; path=/; SameSite=Lax; max-age=${maxAge}`;
                         }
                     }
 
@@ -39,34 +46,13 @@ class SessionService
                         document.cookie = "firebaseImageUrl=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                     }
 
-                    function login(container, returnTo = '/') {
-                        new firebaseui.auth.AuthUI(firebase.auth()).start(container, {
-                            signInOptions: [
-                                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                                firebase.auth.GithubAuthProvider.PROVIDER_ID
-                            ],
-                            signInFlow: 'popup',
-                            callbacks: {
-                                signInSuccessWithAuthResult: function(authResult) {
-                                    const { user } = authResult;
-                                    user.getIdToken().then(function(idToken) {
-                                        sessionService.createSession(idToken, user);
-                                        window.location.assign(returnTo);
-                                    });
-
-                                    return false;
-                                },
-                            },
-                        });
-                    }
-
                     function signOut() {
                         firebase.auth().signOut()
                             .then(() => {
                                 clearSession()
                                 window.location.assign('/');
                             }).catch((error) => {
+                                alert("Error signing out. Please try again.");
                                 console.error("Sign out error", error);
                             });
                     }
@@ -74,48 +60,85 @@ class SessionService
                     return {
                         createSession,
                         clearSession,
-                        login,
                         signOut,
                     }
                 })();
 
                 firebase.auth().onIdTokenChanged(async (user) => {
                     if (user) {
-                        sessionService.createSession(await user.getIdToken(), user);
+                        window.sessionService.createSession(await user.getIdToken(), user);
+
                         return;
                     }
 
-                    sessionService.clearSession();
+                    window.sessionService.clearSession();
                 })
             </script>
         <?php
     }
 
+    public static function initializeLogin(): void
+    {
+        ?>
+            <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+            <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+            <script>
+                window.sessionService.login = (container, returnTo = '/') => {
+                    new firebaseui.auth.AuthUI(firebase.auth()).start(container, {
+                        signInOptions: [
+                            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                            firebase.auth.GithubAuthProvider.PROVIDER_ID
+                        ],
+                        signInFlow: 'popup',
+                        callbacks: {
+                            signInSuccessWithAuthResult: function(authResult) {
+                                const { user } = authResult;
+                                user.getIdToken().then(function(idToken) {
+                                    window.sessionService.createSession(idToken, user);
+                                    window.location.assign(returnTo);
+                                });
+
+                                return false;
+                            },
+                        },
+                    });
+                }
+            </script>
+        <?php
+    }
+
     /**
-     * For rapid prototyping purposes, verifying the token is valid suffices.
+     * For rapid prototyping purposes, verifying the token has not expired suffices.
      *
      * In production, you should verify the token's signature and claims using Firebase Admin SDK.
      */
     public static function isAuthenticated(): bool
     {
-        if (!isset($_COOKIE['firebaseToken'])) {
-            return false;
+        if (self::$isAuthenticated !== null) {
+            return self::$isAuthenticated;
         }
 
-        $parts = explode('.', $_COOKIE['firebaseToken']);
+        self::$isAuthenticated = false;
 
-        if (count($parts) === 3) {
-            $payload = json_decode(base64_decode($parts[1]), true);
-            $currentTime = time();
+        if (
+            isset($_COOKIE['firebaseToken']) &&
+            isset($_COOKIE['firebaseUserId']) &&
+            isset($_COOKIE['firebaseDisplayName'])
+        ) {
+            $parts = explode('.', $_COOKIE['firebaseToken']);
 
-            if ($payload['exp'] > $currentTime) {
-                return true;
+            if (count($parts) === 3) {
+                $payload = json_decode(base64_decode($parts[1]), true);
+                $currentTime = time();
+
+                if ($payload['exp'] > $currentTime) {
+                    self::$isAuthenticated = true;
+                }
             }
-
-            return false;
         }
 
-        return false;
+        return self::$isAuthenticated;
     }
 
     public static function clearAuthentication(): void
