@@ -111,6 +111,7 @@ jobs:
             # Set app variables
             export DB_USER=${{ secrets.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            export SUPPORT_EMAIL=${{ secrets.SUPPORT_EMAIL }}
 
             # Pull and restart
             bash ./docker-compose pull

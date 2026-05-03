@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/EnvironmentService.php";
+
 class DatabaseService
 {
     private static ?PDO $pdo = null;
@@ -8,9 +10,9 @@ class DatabaseService
     {
         if (self::$pdo === null) {
             self::$pdo = new PDO(
-                'mysql:host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_NAME') . ';charset=utf8mb4',
-                getenv('DB_USER'),
-                getenv('DB_PASSWORD')
+                'mysql:host=' . EnvironmentService::getDbHost() . ';dbname=' . EnvironmentService::getDbName() . ';charset=utf8mb4',
+                EnvironmentService::getDbUser(),
+                EnvironmentService::getDbPassword()
             );
         }
         return self::$pdo;

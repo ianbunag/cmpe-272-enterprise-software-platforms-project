@@ -36,6 +36,7 @@ services:
       - DB_NAME=cmpe-272-project
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+      - SUPPORT_EMAIL=${SUPPORT_EMAIL}
     depends_on:
       mariadb:
         condition: service_healthy

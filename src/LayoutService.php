@@ -92,7 +92,7 @@ class LayoutService
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.8rem;">
                     <span>•</span>
-                    <a href="mailto:support.sunandstring@ianbunag.dev" style="text-decoration: none; color: #007bff;">support.sunandstring@ianbunag.dev</a>
+                    <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>" style="text-decoration: none; color: #007bff;"><?= EnvironmentService::getSupportEmail(); ?></a>
                 </div>
             </div>
 

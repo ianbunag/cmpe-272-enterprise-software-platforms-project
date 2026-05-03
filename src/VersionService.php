@@ -1,6 +1,8 @@
 <?php
 
-define('VersionServiceEnvironmentVersion', (string) getenv('VERSION'));
+require_once __DIR__ . "/EnvironmentService.php";
+
+define('VersionServiceEnvironmentVersion', (string) EnvironmentService::getVersion());
 
 class VersionService
 {
