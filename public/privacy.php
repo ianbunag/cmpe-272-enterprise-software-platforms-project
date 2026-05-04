@@ -68,7 +68,7 @@
             <p>Sun & String may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new Privacy Policy on the Site and updating the "Last Updated" date.</p>
 
             <h2>11. Contact Us</h2>
-            <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a>.</p>
+            <p>If you have questions about this Privacy Policy or our privacy practices, please contact us at <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>"><?= EnvironmentService::getSupportEmail(); ?></a>.</p>
         </main>
 
         <?php LayoutService::renderFooter(); ?>

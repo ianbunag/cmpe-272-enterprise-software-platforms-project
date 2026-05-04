@@ -152,6 +152,7 @@ In your repository, go to **Settings > Secrets and variables > Actions** and add
 | `DB_PORT` | Database port                                 |
 | `DB_USER` | Database username                             |
 | `DB_PASSWORD` | Database password                             |
+| `SUPPORT_EMAIL` | Support email                                 |
 
 ---
 

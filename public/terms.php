@@ -45,7 +45,7 @@
             <p>These Terms of Service and any separate agreements we may enter into to provide the Service are governed by and construed in accordance with the laws of the jurisdiction in which Sun & String operates, excluding its conflicts of law provisions.</p>
 
             <h2>9. Contact Us</h2>
-            <p>If you have any questions about these Terms of Service, please contact us at <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a>.</p>
+            <p>If you have any questions about these Terms of Service, please contact us at <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>"><?= EnvironmentService::getSupportEmail(); ?></a>.</p>
         </main>
 
         <?php LayoutService::renderFooter(); ?>

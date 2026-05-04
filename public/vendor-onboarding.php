@@ -17,7 +17,7 @@
             <p>To list your products on Sun & String, follow the steps below. For detailed technical documentation, please refer to our <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project/blob/main/CONTRIBUTING.md#adding-your-company-to-the-marketplace" target="_blank" rel="noopener noreferrer">Developer Guide</a>.</p>
 
             <h2>Step 1: Add Your Company to the Database</h2>
-            <p>Contact our support team at <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a> to provision your company account. You will need to provide:</p>
+            <p>Contact our support team at <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>"><?= EnvironmentService::getSupportEmail(); ?></a> to provision your company account. You will need to provide:</p>
             <ul>
                 <li><strong>Company Name:</strong> Your official business name</li>
                 <li><strong>Products API URL:</strong> The endpoint where your products are hosted</li>
@@ -65,12 +65,12 @@
             <h2>Support & Questions</h2>
             <p>If you have questions or need technical assistance with the integration, please reach out to our support team:</p>
             <ul>
-                <li><strong>Email:</strong> <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a></li>
+                <li><strong>Email:</strong> <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>"><?= EnvironmentService::getSupportEmail(); ?></a></li>
                 <li><strong>GitHub Repository:</strong> <a href="https://github.com/ianbunag/cmpe-272-enterprise-software-platforms-project" target="_blank" rel="noopener noreferrer">sunandstring/marketplace</a></li>
             </ul>
 
             <h2>Ready to Get Started?</h2>
-            <p>Contact us at <a href="mailto:support.sunandstring@ianbunag.dev">support.sunandstring@ianbunag.dev</a> with your company information, and we'll get you set up!</p>
+            <p>Contact us at <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>"><?= EnvironmentService::getSupportEmail(); ?></a> with your company information, and we'll get you set up!</p>
         </main>
 
         <?php LayoutService::renderFooter(); ?>

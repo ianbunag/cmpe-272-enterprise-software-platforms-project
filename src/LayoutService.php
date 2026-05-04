@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/VersionService.php";
 require_once __DIR__ . '/SessionService.php';
+require_once __DIR__ . '/EnvironmentService.php';
 
 class LayoutService
 {
@@ -32,6 +33,36 @@ class LayoutService
     public static function renderNavigation(): void
     {
         ?>
+        <style>
+            @media (max-width: 768px) {
+                nav {
+                    padding: 0.5rem 1rem !important;
+                }
+                nav > div:first-child {
+                    gap: 1rem !important;
+                }
+                nav > div:first-child a:nth-child(2) {
+                    font-size: 0.9rem;
+                }
+                nav img {
+                    height: 40px !important;
+                }
+            }
+            @media (max-width: 480px) {
+                nav {
+                    padding: 0.5rem 0.75rem !important;
+                }
+                nav > div:first-child {
+                    gap: 0.5rem !important;
+                }
+                nav img {
+                    height: 35px !important;
+                }
+                nav a {
+                    font-size: 0.8rem !important;
+                }
+            }
+        </style>
         <nav style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1.5rem; background-color: #fdfdfd; border-bottom: 1px solid #ddd; position: relative;">
             <div style="display: flex; align-items: center; gap: 2rem;">
                 <a href="/" style="display: block; line-height: 0;">
@@ -84,7 +115,64 @@ class LayoutService
     public static function renderFooter(): void
     {
         ?>
-        <footer style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem; background-color: #fdfdfd; border-top: 1px solid #ddd; margin-top: 3rem; font-size: 0.85rem; color: #666;">
+        <style>
+            footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                padding: 1.5rem;
+                background-color: #fdfdfd;
+                border-top: 1px solid #ddd;
+                margin-top: 3rem;
+                font-size: 0.85rem;
+                color: #666;
+            }
+            @media (max-width: 768px) {
+                footer {
+                    padding: 1.25rem 1rem;
+                    gap: 1rem;
+                    justify-content: center;
+                    text-align: center;
+                }
+                footer > div {
+                    flex-basis: 100%;
+                    order: 2;
+                }
+                footer > div:first-child {
+                    order: 1;
+                }
+                footer > div:last-child {
+                    order: 3;
+                }
+                footer > div:first-child {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.75rem;
+                }
+                footer > div:first-child > div {
+                    flex-direction: column;
+                    gap: 0.5rem !important;
+                }
+            }
+            @media (max-width: 480px) {
+                footer {
+                    padding: 1rem 0.75rem;
+                    gap: 0.75rem;
+                    font-size: 0.75rem;
+                }
+                footer > div {
+                    gap: 0.75rem !important;
+                }
+                footer > div:nth-child(2) a {
+                    display: block;
+                    margin: 0.3rem 0;
+                }
+            }
+        </style>
+        <footer>
             <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
                 <div>
                     <p style="margin: 0; font-weight: 600; color: #111; margin-bottom: 0.3rem;">Sun & String</p>
@@ -92,11 +180,11 @@ class LayoutService
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.8rem;">
                     <span>•</span>
-                    <a href="mailto:support.sunandstring@ianbunag.dev" style="text-decoration: none; color: #007bff;">support.sunandstring@ianbunag.dev</a>
+                    <a href="mailto:<?= EnvironmentService::getSupportEmail(); ?>" style="text-decoration: none; color: #007bff;"><?= EnvironmentService::getSupportEmail(); ?></a>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; justify-content: center;">
                 <a href="/terms" style="text-decoration: none; color: #666;">Terms of Service</a>
                 <span style="color: #ccc;">•</span>
                 <a href="/privacy" style="text-decoration: none; color: #666;">Privacy Policy</a>
