@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/VersionService.php";
 require_once __DIR__ . '/SessionService.php';
+require_once __DIR__ . '/EnvironmentService.php';
 
 class LayoutService
 {
