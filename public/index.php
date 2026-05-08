@@ -15,24 +15,10 @@
                 background: #f9f3e7;
                 background-image: radial-gradient(circle at 20% 50%, rgba(255,200,100,0.12) 0%, transparent 60%),
                                   radial-gradient(circle at 80% 20%, rgba(255,160,60,0.08) 0%, transparent 50%);
-                border-bottom: 1px solid #e8ddc8;
                 padding: 7rem 1.5rem 6rem;
                 text-align: center;
                 position: relative;
                 overflow: hidden;
-            }
-            .hero-eyebrow {
-                display: inline-block;
-                background: #fff;
-                border: 1px solid #e8ddc8;
-                border-radius: 100px;
-                padding: 0.35rem 1rem;
-                font-size: 0.8rem;
-                font-weight: 600;
-                color: #888;
-                letter-spacing: 0.05em;
-                text-transform: uppercase;
-                margin-bottom: 1.5rem;
             }
             .hero h1 {
                 font-size: 3.2rem;
@@ -89,9 +75,7 @@
             /* ── Stats bar ── */
             .stats-bar {
                 background: #fff;
-                border-top: 1px solid #e8ddc8;
-                border-bottom: 1px solid #e8ddc8;
-                padding: 1.5rem;
+                padding: 1.75rem 1.5rem;
             }
             .stats-inner {
                 max-width: 700px;
@@ -282,32 +266,62 @@
 
             /* ── CTA banner ── */
             .cta-section {
-                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-                padding: 5rem 1.5rem;
+                background: #f9f3e7;
+                background-image: radial-gradient(ellipse at 50% 120%, rgba(200,134,10,0.15) 0%, transparent 70%);
+                padding: 6rem 1.5rem;
                 text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+            .cta-section::before {
+                content: '';
+                position: absolute;
+                width: 500px;
+                height: 500px;
+                border-radius: 50%;
+                border: 1px solid rgba(200,134,10,0.12);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+            .cta-section::after {
+                content: '';
+                position: absolute;
+                width: 750px;
+                height: 750px;
+                border-radius: 50%;
+                border: 1px solid rgba(200,134,10,0.07);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
             }
             .cta-section h2 {
-                font-size: 2.2rem;
+                font-size: 2.4rem;
                 font-weight: 800;
-                color: #fff;
+                color: #111;
                 margin: 0 0 0.75rem;
-                letter-spacing: -0.02em;
+                letter-spacing: -0.03em;
+                position: relative;
             }
-            .cta-section p { color: #888; margin: 0 0 2rem; font-size: 1rem; }
-            .btn-warm {
+            .cta-section p { color: #888; margin: 0 0 2.25rem; font-size: 1rem; position: relative; }
+            .btn-cta {
                 display: inline-flex;
                 align-items: center;
                 gap: 0.4rem;
-                padding: 0.85rem 2rem;
-                background: #f9f3e7;
-                color: #111;
+                padding: 0.9rem 2.25rem;
+                background: #111;
+                color: #fff;
                 text-decoration: none;
                 border-radius: 8px;
                 font-weight: 700;
                 font-size: 0.95rem;
-                transition: background 0.15s, transform 0.15s;
+                transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+                position: relative;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.18);
             }
-            .btn-warm:hover { background: #ede4d0; transform: translateY(-1px); }
+            .btn-cta:hover { background: #2a2a2a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
 
             @media (max-width: 768px) {
                 .hero h1 { font-size: 2rem; }
@@ -328,7 +342,6 @@
 
         <!-- Hero -->
         <section class="hero">
-            <div class="hero-eyebrow">&#127760; Multi-Vendor Marketplace</div>
             <h1>One place for<br><span>everything you love</span></h1>
             <p>Browse travel packages, artisan gear, exotic produce, and more &mdash; curated by trusted sellers, all in one marketplace.</p>
             <div class="hero-cta">
@@ -361,7 +374,7 @@
         </div>
 
         <!-- Features -->
-        <div style="background: #fff; border-bottom: 1px solid #ebebeb;">
+        <div style="background: #fff;">
             <div class="section">
                 <div class="section-header">
                     <h2>Why Sun &amp; String?</h2>
@@ -397,7 +410,7 @@
         $top5 = array_slice($trending, 0, 5);
         if (!empty($top5)):
         ?>
-        <div style="background: #f9f3e7; border-bottom: 1px solid #e8ddc8;">
+        <div style="background: #f9f3e7;">
             <div class="section">
                 <div class="section-header">
                     <h2>Trending Now</h2>
@@ -433,7 +446,7 @@
         <?php endif; ?>
 
         <!-- Testimonials -->
-        <div style="background: #fff; border-bottom: 1px solid #ebebeb;">
+        <div style="background: #fff;">
             <div class="section">
                 <div class="section-header">
                     <h2>Loved by Shoppers</h2>
@@ -484,7 +497,7 @@
         <div class="cta-section">
             <h2>Ready to Explore?</h2>
             <p>Join for free and start discovering curated products from our trusted vendors.</p>
-            <a href="/products" class="btn-warm">Get Started &rarr;</a>
+            <a href="/products" class="btn-cta">Get Started &rarr;</a>
         </div>
 
         <?php LayoutService::renderFooter(); ?>
