@@ -1,0 +1,86 @@
+<?php
+
+header('Content-Type: application/json');
+
+echo json_encode([
+    [
+        'id'          => '1',
+        'name'        => 'Beach Escape',
+        'price'       => '$1,299',
+        'description' => 'Relax on tropical beaches with crystal clear water and luxury resorts.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Beach%20Escape',
+    ],
+    [
+        'id'          => '2',
+        'name'        => 'Europe Tour',
+        'price'       => '$2,499',
+        'description' => 'Explore Paris, Rome, and London in one unforgettable journey.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Europe%20Tour',
+    ],
+    [
+        'id'          => '3',
+        'name'        => 'Asia Adventure',
+        'price'       => '$1,899',
+        'description' => 'Experience vibrant cultures across Asia.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1501785888041-af3ef285b470',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Asia%20Adventure',
+    ],
+    [
+        'id'          => '4',
+        'name'        => 'African Safari',
+        'price'       => '$2,299',
+        'description' => 'See wildlife up close in Africa.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1508672019048-805c876b67e2',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=African%20Safari',
+    ],
+    [
+        'id'          => '5',
+        'name'        => 'Cruise Trip',
+        'price'       => '$1,799',
+        'description' => 'Luxury cruise experience.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Cruise%20Trip',
+    ],
+    [
+        'id'          => '6',
+        'name'        => 'Mountain Retreat',
+        'price'       => '$999',
+        'description' => 'Peaceful mountain getaway.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Mountain%20Retreat',
+    ],
+    [
+        'id'          => '7',
+        'name'        => 'City Explorer',
+        'price'       => '$1,499',
+        'description' => 'Explore famous cities worldwide.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1494526585095-c41746248156',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=City%20Explorer',
+    ],
+    [
+        'id'          => '8',
+        'name'        => 'Honeymoon Package',
+        'price'       => '$2,199',
+        'description' => 'Romantic trip for couples.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Honeymoon%20Package',
+    ],
+    [
+        'id'          => '9',
+        'name'        => 'Family Vacation',
+        'price'       => '$1,599',
+        'description' => 'Fun for the whole family.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Family%20Vacation',
+    ],
+    [
+        'id'          => '10',
+        'name'        => 'Luxury Resort',
+        'price'       => '$2,999',
+        'description' => '5-star resort experience.',
+        'imageUrl'    => 'https://images.unsplash.com/photo-1571896349842-33c89424de2d',
+        'url'         => 'https://mulugetagirmay.com/hw/product.php?name=Luxury%20Resort',
+    ],
+], JSON_PRETTY_PRINT);
