@@ -316,7 +316,9 @@
             <p>Browse travel packages, artisan gear, exotic produce, and more. Curated by trusted sellers, all in one marketplace.</p>
             <div class="hero-cta">
                 <a href="/products" class="btn-primary">Browse Products &rarr;</a>
+                <?php if (!SessionService::isAuthenticated()) { ?>
                 <a href="/login" class="btn-outline">Sign In Free</a>
+                <?php } ?>
             </div>
         </section>
 
