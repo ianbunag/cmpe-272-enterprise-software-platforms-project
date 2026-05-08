@@ -30,14 +30,8 @@
                 text-decoration: none !important;
             }
             .hero h1 span {
-                background: linear-gradient(135deg, #c8860a, #e8a020);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
+                color: #c8860a;
                 text-decoration: none !important;
-                display: inline-block;
-                border: none !important;
-                box-shadow: none !important;
             }
             .hero p {
                 font-size: 1.1rem;
