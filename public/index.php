@@ -33,6 +33,8 @@
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
+                text-decoration: none;
+                display: inline-block;
             }
             .hero p {
                 font-size: 1.1rem;
@@ -72,35 +74,6 @@
             }
             .btn-outline:hover { border-color: #aaa; transform: translateY(-1px); }
 
-            /* ── Stats bar ── */
-            .stats-bar {
-                background: #fff;
-                padding: 1.75rem 1.5rem;
-            }
-            .stats-inner {
-                max-width: 700px;
-                margin: 0 auto;
-                display: flex;
-                justify-content: center;
-                gap: 3rem;
-                flex-wrap: wrap;
-            }
-            .stat { text-align: center; }
-            .stat-number {
-                font-size: 1.6rem;
-                font-weight: 800;
-                color: #111;
-                line-height: 1;
-                letter-spacing: -0.02em;
-            }
-            .stat-label {
-                font-size: 0.78rem;
-                color: #999;
-                font-weight: 500;
-                margin-top: 0.25rem;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-            }
 
             /* ── Shared layout ── */
             .section { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
@@ -349,29 +322,6 @@
                 <a href="/login" class="btn-outline">Sign In Free</a>
             </div>
         </section>
-
-        <!-- Stats bar -->
-        <?php $companies = SearchService::getCompanies(); ?>
-        <div class="stats-bar">
-            <div class="stats-inner">
-                <div class="stat">
-                    <div class="stat-number"><?= count($companies) ?></div>
-                    <div class="stat-label">Trusted Vendors</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">Products per Vendor</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">&#11088; 5.0</div>
-                    <div class="stat-label">Avg. Rating</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">Free</div>
-                    <div class="stat-label">To Join</div>
-                </div>
-            </div>
-        </div>
 
         <!-- Features -->
         <div style="background: #fff;">
