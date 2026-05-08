@@ -2,6 +2,12 @@
 
 A containerized enterprise software platform for CMPE-272 coursework project, featuring Docker, PHP, MySQL, Nginx, and automated CI/CD deployment.
 
+## Owners
+
+- [Brandon Rivera](https://github.com/NotKenpachi)
+- [Mulugeta Girmay](https://github.com/Mulugeta70)
+- [John Ian Buñag](https://github.com/ianbunag)
+
 ## Backlog
 https://github.com/users/ianbunag/projects/3/views/1
 
