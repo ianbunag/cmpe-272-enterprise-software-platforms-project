@@ -316,7 +316,7 @@
         <!-- Hero -->
         <section class="hero">
             <h1>One place for<br><span>everything you love</span></h1>
-            <p>Browse travel packages, artisan gear, exotic produce, and more &mdash; curated by trusted sellers, all in one marketplace.</p>
+            <p>Browse travel packages, artisan gear, exotic produce, and more. Curated by trusted sellers, all in one marketplace.</p>
             <div class="hero-cta">
                 <a href="/products" class="btn-primary">Browse Products &rarr;</a>
                 <a href="/login" class="btn-outline">Sign In Free</a>
@@ -334,7 +334,7 @@
                     <div class="feature-card">
                         <div class="feature-icon">&#127760;</div>
                         <h3>Curated Selection</h3>
-                        <p>Hand-picked products from verified vendors across multiple specialty companies — travel, gear, produce, and more.</p>
+                        <p>Hand-picked products from verified vendors across multiple specialty companies: travel, gear, produce, and more.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">&#11088;</div>
