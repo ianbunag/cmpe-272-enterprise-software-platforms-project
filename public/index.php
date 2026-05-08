@@ -27,14 +27,17 @@
                 margin: 0 0 1.25rem;
                 line-height: 1.15;
                 letter-spacing: -0.03em;
+                text-decoration: none !important;
             }
             .hero h1 span {
                 background: linear-gradient(135deg, #c8860a, #e8a020);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
-                text-decoration: none;
+                text-decoration: none !important;
                 display: inline-block;
+                border: none !important;
+                box-shadow: none !important;
             }
             .hero p {
                 font-size: 1.1rem;
