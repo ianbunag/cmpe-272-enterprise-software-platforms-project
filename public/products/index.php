@@ -49,7 +49,7 @@ $products = SearchService::searchProducts($query, $sort, $companyId);
                 <div style="flex: 1; min-width: 200px;">
                     <label for="q" style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem; font-weight: 500;">Search</label>
                     <div style="display: flex;">
-                        <input type="search" id="q" name="q" value="<?= htmlspecialchars($query ?? '') ?>" placeholder="Search products..." style="flex: 1; border-top-right-radius: 0; border-bottom-right-radius: 0;" oninput="clearTimeout(window._sqt);window._sqt=setTimeout(()=>this.form.submit(),400)">
+                        <input type="search" id="q" name="q" value="<?= htmlspecialchars($query ?? '') ?>" placeholder="Search products..." style="flex: 1; border-top-right-radius: 0; border-bottom-right-radius: 0;">
                         <button type="submit" aria-label="Search" style="padding: 0.4rem 0.8rem; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer;">🔍</button>
                     </div>
                 </div>
