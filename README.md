@@ -8,6 +8,9 @@ A containerized enterprise software platform for CMPE-272 coursework project, fe
 - [Mulugeta Girmay](https://github.com/Mulugeta70)
 - [John Ian Buñag](https://github.com/ianbunag)
 
+## Demo
+https://youtu.be/5ApyXjhtnH4
+
 ## Backlog
 https://github.com/users/ianbunag/projects/3/views/1
 
