@@ -43,6 +43,7 @@ Check if Docker Compose is included with your Docker installation. If not, insta
 - [GIT_WORKFLOW.md](./GIT_WORKFLOW.md) - Git workflow and repository contribution process
 - [DEBUG.md](./DEBUG.md) - Debugging and troubleshooting guide
 - [SETUP.md](./SETUP.md) - Production environment setup
+- [DIAGRAMS.md](./DIAGRAMS.md) - Implementation diagrams
 
 ## Quick Start (Development)
 
